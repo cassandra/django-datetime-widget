@@ -100,14 +100,14 @@ toJavascript_re = re.compile(r'(?<!\w)(' + '|'.join(dateConversiontoJavascript.k
 
 BOOTSTRAP_INPUT_TEMPLATE = {
     2: """
-       <div id="%(id)s"  class="controls input-append date">
+       <div id="%(id)s"  class="controls input-append date datetimepicker">
            %(rendered_widget)s
            %(clear_button)s
            <span class="add-on"><i class="icon-th"></i></span>
        </div>
        """,
     3: """
-       <div id="%(id)s" class="input-group date">
+       <div id="%(id)s" class="input-group date datetimepicker">
            %(rendered_widget)s
            %(clear_button)s
            <span class="input-group-addon"><span class="glyphicon %(glyphicon)s"></span></span>
@@ -165,7 +165,7 @@ class PickerWidgetMixin(object):
     format_name = None
     glyphicon = None
 
-    def __init__(self, attrs=None, options=None, usel10n=None, bootstrap_version=None):
+    def __init__(self, attrs=None, initial=None, options=None, usel10n=None, bootstrap_version=None):
 
         if bootstrap_version in [2,3]:
             self.bootstrap_version = bootstrap_version
@@ -211,10 +211,13 @@ class PickerWidgetMixin(object):
                 format
                 )
 
+        self.initial = initial
         super(PickerWidgetMixin, self).__init__(attrs, format=self.format)
 
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs)
+        if not value and self.initial:
+            value = self.initial.strftime(self.format)
         rendered_widget = super(PickerWidgetMixin, self).render(name, value, final_attrs)
 
         #if not set, autoclose have to be true.
@@ -270,7 +273,7 @@ class DateTimeWidget(PickerWidgetMixin, DateTimeInput):
     format_name = 'DATETIME_INPUT_FORMATS'
     glyphicon = 'glyphicon-th'
 
-    def __init__(self, attrs=None, options=None, usel10n=None, bootstrap_version=None):
+    def __init__(self, attrs=None, initial=None, options=None, usel10n=None, bootstrap_version=None):
 
         if options is None:
             options = {}
@@ -278,7 +281,7 @@ class DateTimeWidget(PickerWidgetMixin, DateTimeInput):
         # Set the default options to show only the datepicker object
         options['format'] = options.get('format', 'dd/mm/yyyy hh:ii')
 
-        super(DateTimeWidget, self).__init__(attrs, options, usel10n, bootstrap_version)
+        super(DateTimeWidget, self).__init__(attrs, initial, options, usel10n, bootstrap_version)
 
 
 class DateWidget(PickerWidgetMixin, DateInput):
@@ -290,7 +293,7 @@ class DateWidget(PickerWidgetMixin, DateInput):
     format_name = 'DATE_INPUT_FORMATS'
     glyphicon = 'glyphicon-calendar'
 
-    def __init__(self, attrs=None, options=None, usel10n=None, bootstrap_version=None):
+    def __init__(self, attrs=None, initial=None, options=None, usel10n=None, bootstrap_version=None):
 
         if options is None:
             options = {}
@@ -300,7 +303,7 @@ class DateWidget(PickerWidgetMixin, DateInput):
         options['minView'] = options.get('minView', 2)
         options['format'] = options.get('format', 'dd/mm/yyyy')
 
-        super(DateWidget, self).__init__(attrs, options, usel10n, bootstrap_version)
+        super(DateWidget, self).__init__(attrs, initial, options, usel10n, bootstrap_version)
 
 
 class TimeWidget(PickerWidgetMixin, TimeInput):
@@ -312,7 +315,7 @@ class TimeWidget(PickerWidgetMixin, TimeInput):
     format_name = 'TIME_INPUT_FORMATS'
     glyphicon = 'glyphicon-time'
 
-    def __init__(self, attrs=None, options=None, usel10n=None, bootstrap_version=None):
+    def __init__(self, attrs=None, initial=None, options=None, usel10n=None, bootstrap_version=None):
 
         if options is None:
             options = {}
@@ -323,5 +326,5 @@ class TimeWidget(PickerWidgetMixin, TimeInput):
         options['maxView'] = options.get('maxView', 1)
         options['format'] = options.get('format', 'hh:ii')
 
-        super(TimeWidget, self).__init__(attrs, options, usel10n, bootstrap_version)
+        super(TimeWidget, self).__init__(attrs, initial, options, usel10n, bootstrap_version)
 
