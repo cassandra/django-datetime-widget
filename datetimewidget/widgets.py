@@ -105,9 +105,6 @@ BOOTSTRAP_INPUT_TEMPLATE = {
            %(clear_button)s
            <span class="add-on"><i class="icon-th"></i></span>
        </div>
-       <script type="text/javascript">
-           $("#%(id)s").datetimepicker({%(options)s});
-       </script>
        """,
     3: """
        <div id="%(id)s" class="input-group date">
@@ -115,9 +112,6 @@ BOOTSTRAP_INPUT_TEMPLATE = {
            %(clear_button)s
            <span class="input-group-addon"><span class="glyphicon %(glyphicon)s"></span></span>
        </div>
-       <script type="text/javascript">
-           $("#%(id)s").datetimepicker({%(options)s}).find('input').addClass("form-control");
-       </script>
        """
        }
 

@@ -123,6 +123,13 @@ Basic Configuration
         </form>
     </body>
 
+#. This assumes you will load jQuery at the bottom of your page, so to attached the datepicker Javascript function, add this:
+
+    <script>
+      $('.datetimepicker').datetimepicker(
+	     // You can put more options here.
+      ).find('input').addClass("form-control");
+    </script>
 
 #. Optional: you can add an option dictionary to DatetimeWidget to customize your input. For example, to have date and time with meridian::
 
